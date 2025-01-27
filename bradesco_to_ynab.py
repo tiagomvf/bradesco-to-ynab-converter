@@ -63,9 +63,13 @@ if __name__ == "__main__":
     # Process all CSV files in input directory
     for filename in os.listdir(input_dir):
         if filename.endswith(".csv"):
+            # Ensure output directory exists
+            output_dir = "output-files"
+            os.makedirs(output_dir, exist_ok=True)
+            
             input_csv = os.path.join(input_dir, filename)
             base_name = os.path.splitext(filename)[0]
-            output_csv = f"{base_name}_ynab_ready.csv"
+            output_csv = os.path.join(output_dir, f"{base_name}_ynab_ready.csv")
             
             print(f"Processing: {filename}")
             convert_bradesco_to_ynab(input_csv, output_csv)
