@@ -19,10 +19,10 @@ def convert_bradesco_to_ynab(input_path, output_path):
                 continue
                 
             # Extract relevant fields
-            date_str, payee, _, amount_br = row[0].strip(), row[1].strip(), row[2], row[3].strip()
+            date_str, memo, _, amount_br = row[0].strip(), row[1].strip(), row[2], row[3].strip()
             
             # Skip summary rows
-            if any(x in payee for x in ["Total", "Resumo", "Taxas", "Pagamento Mínimo", "SALDO ANTERIOR"]):
+            if any(x in memo for x in ["Total", "Resumo", "Taxas", "Pagamento Mínimo", "SALDO ANTERIOR"]):
                 continue
                 
             try:
@@ -48,9 +48,9 @@ def convert_bradesco_to_ynab(input_path, output_path):
                 
                 writer.writerow([
                     ynab_date,
-                    payee,
+                    "",  # Payee left blank
                     "",  # Category left empty for user to fill
-                    payee,  # Memo duplicates payee info
+                    memo,  # Original payee info goes to memo
                     ynab_amount
                 ])
                 
